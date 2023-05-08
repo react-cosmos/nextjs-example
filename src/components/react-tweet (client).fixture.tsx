@@ -1,12 +1,11 @@
 'use client';
 import { Tweet } from 'react-tweet';
-import { useSelect } from 'react-cosmos-renderer/client';
+import { useSelect } from 'react-cosmos/client';
 
 export default () => {
   const [id] = useSelect('Tweet ID', {
     options: [
       '599960326621286401',
-      '831457430840176640',
       '911347634069168128',
       '1093138486587199488',
       '1139838627976843264',
