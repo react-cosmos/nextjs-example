@@ -36,3 +36,4 @@ next-env.d.ts
 
 # cosmos
 cosmos.imports.ts
+cosmos-export
