@@ -1,12 +1,4 @@
-import { NextFixtureLoader } from 'react-cosmos-next';
-import { moduleWrappers, rendererConfig } from '../../../cosmos.imports';
+import { nextCosmosRenderer } from 'react-cosmos-next';
+import * as cosmosImports from '../../../cosmos.imports';
 
-export default ({ searchParams }: { searchParams: {} }) => {
-  return (
-    <NextFixtureLoader
-      rendererConfig={rendererConfig}
-      moduleWrappers={moduleWrappers}
-      searchParams={searchParams}
-    />
-  );
-};
+export default nextCosmosRenderer(cosmosImports);
