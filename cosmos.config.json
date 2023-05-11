@@ -1,4 +1,6 @@
 {
   "plugins": ["react-cosmos-plugin-open-fixture"],
-  "rendererUrl": "http://localhost:3000/cosmos"
+  "rendererUrl": "http://localhost:3000/cosmos/index",
+  "rendererUrl_dev": "http://localhost:3000/cosmos/index",
+  "rendererUrl_export": "/cosmos/index"
 }
