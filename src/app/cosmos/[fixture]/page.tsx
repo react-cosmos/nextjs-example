@@ -1,10 +1,12 @@
-import { Base64 } from 'js-base64';
-import { FixtureId } from 'react-cosmos-core';
 import { ServerFixtureLoader } from 'react-cosmos-renderer';
 import { isElement } from 'react-is';
 import { moduleWrappers, rendererConfig } from '../../../../cosmos.imports';
 import { NextRendererProvider } from './NextRendererProvider';
-import { PageParams, getFixtureIdFromPageParams } from './pageHelpers';
+import {
+  PageParams,
+  encodeFixtureId,
+  getFixtureIdFromPageParams,
+} from './pageHelpers';
 
 export function generateStaticParams() {
   if (moduleWrappers.lazy) {
@@ -38,10 +40,6 @@ export function generateStaticParams() {
   }
 
   return params;
-}
-
-function encodeFixtureId(fixtureId: FixtureId) {
-  return Base64.encode(JSON.stringify(fixtureId));
 }
 
 export default ({ params }: { params: PageParams }) => {

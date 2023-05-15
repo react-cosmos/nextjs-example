@@ -17,5 +17,9 @@ export function getFixturePageUrl(
   basePath: string,
   fixtureId: FixtureId
 ): string {
-  return `/${basePath}/${Base64.encode(JSON.stringify(fixtureId))}`;
+  return `/${basePath}/${encodeFixtureId(fixtureId)}`;
+}
+
+export function encodeFixtureId(fixtureId: FixtureId) {
+  return Base64.encode(JSON.stringify(fixtureId));
 }
