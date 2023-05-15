@@ -4,10 +4,7 @@ import { ServerFixtureLoader } from 'react-cosmos-renderer';
 import { isElement } from 'react-is';
 import { moduleWrappers, rendererConfig } from '../../../../cosmos.imports';
 import { NextRendererProvider } from './NextFixtureProvider';
-
-type PageParams = {
-  fixture: string | null;
-};
+import { PageParams, getFixtureIdFromPageParams } from './pageHelpers';
 
 export function generateStaticParams() {
   if (moduleWrappers.lazy) {
@@ -48,24 +45,29 @@ function encodeFixtureId(fixtureId: FixtureId) {
 }
 
 export default ({ params }: { params: PageParams }) => {
-  const fixtureId =
-    params.fixture && params.fixture !== 'index'
-      ? JSON.parse(Base64.decode(decodeURIComponent(params.fixture)))
-      : null;
+  const fixtureId = getFixtureIdFromPageParams(params);
+
+  const selectedFixture = fixtureId && {
+    fixtureId,
+    initialFixtureState: {},
+    // This fixture loader is meant to work with Next.js build-time static
+    // generation. Its props will be driven by finite URL segment params and not
+    // query strings, which are inherently dynamic. This means we can't receive
+    // an incrementing renderKey here. Instead, we'll rely solely on the fixture
+    // ID as the fixture render key and will not support refreshing the current
+    // fixture by selecting it again.
+    renderKey: 0,
+  };
 
   return (
     <NextRendererProvider
       rendererConfig={rendererConfig}
-      searchParams={{
-        fixtureId: fixtureId && JSON.stringify(fixtureId),
-      }}
+      selectedFixture={selectedFixture}
     >
       <ServerFixtureLoader
-        params={{
-          fixtureId,
-        }}
         moduleWrappers={moduleWrappers}
         renderMessage={renderMessage}
+        selectedFixture={selectedFixture}
       />
     </NextRendererProvider>
   );

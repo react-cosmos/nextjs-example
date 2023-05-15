@@ -1,50 +1,63 @@
 'use client';
-import { Base64 } from 'js-base64';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
-import { RendererConfig, RendererSearchParams } from 'react-cosmos-core';
-import { DomRendererProvider } from 'react-cosmos-dom';
+import { FixtureId, RendererConfig } from 'react-cosmos-core';
+import {
+  GlobalErrorHandler,
+  reloadDomRenderer,
+  useDomRendererConnect,
+  useDomRendererId,
+} from 'react-cosmos-dom';
+import {
+  RendererProvider,
+  SelectedFixture,
+} from 'react-cosmos-renderer/client';
+import { getFixturePageUrl } from './pageHelpers';
 
 type Props = {
   children: React.ReactNode;
   rendererConfig: RendererConfig;
-  searchParams: RendererSearchParams;
+  selectedFixture: SelectedFixture | null;
 };
 export function NextRendererProvider({
   children,
   rendererConfig,
-  searchParams,
+  selectedFixture,
 }: Props) {
+  const rendererId = useDomRendererId();
+  const rendererConnect = useDomRendererConnect(rendererConfig);
+
   const pathname = usePathname();
   const router = useRouter();
 
-  const setSearchParams = React.useCallback(
-    (nextParams: RendererSearchParams) => {
-      const fixtureId = nextParams.fixtureId;
+  const searchParams = useSearchParams();
+  const locked = searchParams.get('locked') === 'true';
 
-      const match = pathname.match(/^\/(.+?)\//);
-      if (match) {
-        if (!fixtureId) {
-          router.push(`/${match[1]}/index`);
-        } else {
-          router.push(`/${match[1]}/${escapePath(Base64.encode(fixtureId))}`);
-        }
-      }
+  const [, baseUrl] = pathname.match(/^\/(.+?)\//)!;
+
+  const selectFixture = React.useCallback(
+    (fixtureId: FixtureId) => {
+      router.push(getFixturePageUrl(baseUrl, fixtureId));
     },
-    [pathname, router]
+    [baseUrl, router]
   );
 
-  function escapePath(filePath: string) {
-    return filePath.replace(/\./g, '{{dot}}');
-  }
+  const unselectFixture = React.useCallback(() => {
+    router.push(`/${baseUrl}/index`);
+  }, [baseUrl, router]);
 
   return (
-    <DomRendererProvider
-      rendererConfig={rendererConfig}
-      searchParams={searchParams}
-      setSearchParams={setSearchParams}
+    <RendererProvider
+      rendererId={rendererId}
+      rendererConnect={rendererConnect}
+      locked={locked}
+      selectedFixture={selectedFixture}
+      selectFixture={selectFixture}
+      unselectFixture={unselectFixture}
+      reloadRenderer={reloadDomRenderer}
     >
       {children}
-    </DomRendererProvider>
+      {typeof window !== 'undefined' && <GlobalErrorHandler />}
+    </RendererProvider>
   );
 }
