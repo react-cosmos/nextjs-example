@@ -8,10 +8,8 @@ import {
   useDomRendererConnect,
   useDomRendererId,
 } from 'react-cosmos-dom';
-import {
-  RendererProvider,
-  SelectedFixture,
-} from 'react-cosmos-renderer/client';
+import { SelectedFixture } from 'react-cosmos-renderer';
+import { RendererProvider } from 'react-cosmos-renderer/client';
 import { getFixturePageUrl } from './pageHelpers';
 
 type Props = {
