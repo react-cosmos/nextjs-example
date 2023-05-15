@@ -3,7 +3,7 @@ import { FixtureId } from 'react-cosmos-core';
 import { ServerFixtureLoader } from 'react-cosmos-renderer';
 import { isElement } from 'react-is';
 import { moduleWrappers, rendererConfig } from '../../../../cosmos.imports';
-import { NextRendererProvider } from './NextFixtureProvider';
+import { NextRendererProvider } from './NextRendererProvider';
 import { PageParams, getFixtureIdFromPageParams } from './pageHelpers';
 
 export function generateStaticParams() {
