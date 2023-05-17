@@ -18,7 +18,7 @@ import { RendererProvider } from 'react-cosmos-renderer/client';
 type Props = {
   children: React.ReactNode;
   rendererConfig: RendererConfig;
-  rendererUrl: string | null;
+  rendererUrl: string;
   selectedFixture: SelectedFixture | null;
 };
 export function NextRendererProvider({
@@ -37,17 +37,13 @@ export function NextRendererProvider({
 
   const selectFixture = React.useCallback(
     (fixtureId: FixtureId) => {
-      if (rendererUrl !== null) {
-        router.push(createRendererUrl(rendererUrl, fixtureId));
-      }
+      router.push(createRendererUrl(rendererUrl, fixtureId));
     },
     [rendererUrl, router]
   );
 
   const unselectFixture = React.useCallback(() => {
-    if (rendererUrl !== null) {
-      router.push(createRendererUrl(rendererUrl));
-    }
+    router.push(createRendererUrl(rendererUrl));
   }, [rendererUrl, router]);
 
   return (
