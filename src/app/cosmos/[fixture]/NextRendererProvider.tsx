@@ -18,11 +18,13 @@ import { RendererProvider } from 'react-cosmos-renderer/client';
 type Props = {
   children: React.ReactNode;
   rendererConfig: RendererConfig;
+  rendererUrl: string | null;
   selectedFixture: SelectedFixture | null;
 };
 export function NextRendererProvider({
   children,
   rendererConfig,
+  rendererUrl,
   selectedFixture,
 }: Props) {
   const rendererId = useDomRendererId();
@@ -32,8 +34,6 @@ export function NextRendererProvider({
 
   const searchParams = useSearchParams();
   const locked = searchParams.get('locked') === 'true';
-
-  const { rendererUrl } = rendererConfig;
 
   const selectFixture = React.useCallback(
     (fixtureId: FixtureId) => {
