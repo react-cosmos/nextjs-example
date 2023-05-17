@@ -1,7 +1,11 @@
 'use client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
-import { FixtureId, RendererConfig } from 'react-cosmos-core';
+import {
+  FixtureId,
+  RendererConfig,
+  createRendererUrl,
+} from 'react-cosmos-core';
 import {
   GlobalErrorHandler,
   reloadDomRenderer,
@@ -10,7 +14,6 @@ import {
 } from 'react-cosmos-dom';
 import { SelectedFixture } from 'react-cosmos-renderer';
 import { RendererProvider } from 'react-cosmos-renderer/client';
-import { getFixturePageUrl } from './pageHelpers';
 
 type Props = {
   children: React.ReactNode;
@@ -25,24 +28,27 @@ export function NextRendererProvider({
   const rendererId = useDomRendererId();
   const rendererConnect = useDomRendererConnect(rendererConfig);
 
-  const pathname = usePathname();
   const router = useRouter();
 
   const searchParams = useSearchParams();
   const locked = searchParams.get('locked') === 'true';
 
-  const [, baseUrl] = pathname.match(/^\/(.+?)\//)!;
+  const { rendererUrl } = rendererConfig;
 
   const selectFixture = React.useCallback(
     (fixtureId: FixtureId) => {
-      router.push(getFixturePageUrl(baseUrl, fixtureId));
+      if (rendererUrl !== null) {
+        router.push(createRendererUrl(rendererUrl, fixtureId));
+      }
     },
-    [baseUrl, router]
+    [rendererUrl, router]
   );
 
   const unselectFixture = React.useCallback(() => {
-    router.push(`/${baseUrl}/index`);
-  }, [baseUrl, router]);
+    if (rendererUrl !== null) {
+      router.push(createRendererUrl(rendererUrl));
+    }
+  }, [rendererUrl, router]);
 
   return (
     <RendererProvider

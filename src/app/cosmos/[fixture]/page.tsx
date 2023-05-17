@@ -1,12 +1,16 @@
+import {
+  FixtureId,
+  decodeRendererUrlFixture,
+  encodeFixtureId,
+} from 'react-cosmos-core';
 import { ServerFixtureLoader } from 'react-cosmos-renderer';
 import { isElement } from 'react-is';
 import { moduleWrappers, rendererConfig } from '../../../../cosmos.imports';
 import { NextRendererProvider } from './NextRendererProvider';
-import {
-  PageParams,
-  encodeFixtureId,
-  getFixtureIdFromPageParams,
-} from './pageHelpers';
+
+type PageParams = {
+  fixture: string | null;
+};
 
 export function generateStaticParams() {
   if (moduleWrappers.lazy) {
@@ -70,6 +74,12 @@ export default ({ params }: { params: PageParams }) => {
     </NextRendererProvider>
   );
 };
+
+function getFixtureIdFromPageParams(params: PageParams): FixtureId | null {
+  return params.fixture && params.fixture !== 'index'
+    ? decodeRendererUrlFixture(decodeURIComponent(params.fixture))
+    : null;
+}
 
 const containerStyle: React.CSSProperties = {
   position: 'absolute',
