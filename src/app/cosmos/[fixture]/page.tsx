@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import {
   FixtureId,
   decodeRendererUrlFixture,
-  encodeFixtureId,
+  encodeRendererUrlFixture,
 } from 'react-cosmos-core';
 import { ServerFixtureLoader } from 'react-cosmos-renderer';
 import { isElement } from 'react-is';
@@ -31,7 +31,7 @@ export function generateStaticParams() {
     ) {
       for (const fixtureName in module.default) {
         params.push({
-          fixture: encodeFixtureId({
+          fixture: encodeRendererUrlFixture({
             path: fixturePath,
             name: fixtureName,
           }),
@@ -39,7 +39,7 @@ export function generateStaticParams() {
       }
     } else {
       params.push({
-        fixture: encodeFixtureId({ path: fixturePath }),
+        fixture: encodeRendererUrlFixture({ path: fixturePath }),
       });
     }
   }
@@ -66,7 +66,6 @@ export default async ({ params }: { params: PageParams }) => {
     <Suspense>
       <NextRendererProvider
         rendererConfig={rendererConfig}
-        rendererUrl={await pickRendererUrl()}
         selectedFixture={selectedFixture}
       >
         <ServerFixtureLoader
@@ -78,12 +77,6 @@ export default async ({ params }: { params: PageParams }) => {
     </Suspense>
   );
 };
-
-async function pickRendererUrl() {
-  const cosmosConfig = await import('../../../../cosmos.config.json');
-  const command = process.env.NODE_ENV ? 'export' : 'dev';
-  return cosmosConfig.rendererUrl[command];
-}
 
 function getFixtureIdFromPageParams(params: PageParams): FixtureId | null {
   return params.fixture && params.fixture !== 'index'

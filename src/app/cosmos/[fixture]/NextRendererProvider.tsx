@@ -2,9 +2,10 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import {
+  CustomRendererConfig,
   FixtureId,
-  RendererConfig,
   createRendererUrl,
+  pickRendererUrl,
 } from 'react-cosmos-core';
 import {
   GlobalErrorHandler,
@@ -17,33 +18,35 @@ import { RendererProvider } from 'react-cosmos-renderer/client';
 
 type Props = {
   children: React.ReactNode;
-  rendererConfig: RendererConfig;
-  rendererUrl: string;
+  rendererConfig: CustomRendererConfig;
   selectedFixture: SelectedFixture | null;
 };
 export function NextRendererProvider({
   children,
   rendererConfig,
-  rendererUrl,
   selectedFixture,
 }: Props) {
   const rendererId = useDomRendererId();
   const rendererConnect = useDomRendererConnect(rendererConfig);
 
   const router = useRouter();
+  const rendererUrl = pickRendererUrl(
+    rendererConfig.rendererUrl,
+    process.env.NODE_ENV === 'production' ? 'export' : 'dev'
+  );
 
   const searchParams = useSearchParams();
   const locked = searchParams.get('locked') === 'true';
 
   const selectFixture = React.useCallback(
     (fixtureId: FixtureId) => {
-      router.push(createRendererUrl(rendererUrl, fixtureId));
+      if (rendererUrl) router.push(createRendererUrl(rendererUrl, fixtureId));
     },
     [rendererUrl, router]
   );
 
   const unselectFixture = React.useCallback(() => {
-    router.push(createRendererUrl(rendererUrl));
+    if (rendererUrl) router.push(createRendererUrl(rendererUrl));
   }, [rendererUrl, router]);
 
   return (
