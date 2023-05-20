@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import {
-  CustomRendererConfig,
+  RendererConfig,
   FixtureId,
   createRendererUrl,
   pickRendererUrl,
@@ -18,7 +18,7 @@ import { RendererProvider } from 'react-cosmos-renderer/client';
 
 type Props = {
   children: React.ReactNode;
-  rendererConfig: CustomRendererConfig;
+  rendererConfig: RendererConfig;
   selectedFixture: SelectedFixture | null;
 };
 export function NextRendererProvider({
