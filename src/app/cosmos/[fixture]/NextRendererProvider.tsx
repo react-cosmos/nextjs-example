@@ -2,8 +2,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import {
-  RendererConfig,
   FixtureId,
+  RendererConfig,
   createRendererUrl,
   pickRendererUrl,
 } from 'react-cosmos-core';
