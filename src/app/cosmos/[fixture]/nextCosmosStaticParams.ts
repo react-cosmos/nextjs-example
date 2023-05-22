@@ -1,4 +1,6 @@
+import { mapValues } from 'lodash-es';
 import {
+  ByPath,
   UserModuleWrappers,
   encodeRendererUrlFixture,
 } from 'react-cosmos-core';
@@ -10,16 +12,21 @@ type Args = {
 };
 
 export function nextCosmosStaticParams({ moduleWrappers }: Args) {
-  return () => {
-    if (moduleWrappers.lazy) {
-      // TODO: Support
-      throw new Error('Lazy mode not support yet in Next.js exports — Sorry!');
-    }
+  return async () => {
+    const modules = await getFixtureModules(moduleWrappers);
 
     const params: CosmosPageParams[] = [{ fixture: 'index' }];
 
-    for (const fixturePath in moduleWrappers.fixtures) {
-      const { module } = moduleWrappers.fixtures[fixturePath];
+    for (const fixturePath in modules) {
+      const module = modules[fixturePath];
+
+      // FYI: Index routes are required for multi fixtures too in lazy mode,
+      // where fixture names are revealed in the Cosmos UI only after a multi
+      // fixture is selected.
+      params.push({
+        fixture: encodeRendererUrlFixture({ path: fixturePath }),
+      });
+
       // We won't be able to "open" Client fixtures, but that's fine because we
       // know they are all single component fixtures.
       if (
@@ -35,13 +42,33 @@ export function nextCosmosStaticParams({ moduleWrappers }: Args) {
             }),
           });
         }
-      } else {
-        params.push({
-          fixture: encodeRendererUrlFixture({ path: fixturePath }),
-        });
       }
     }
 
     return params;
   };
+}
+
+async function getFixtureModules(moduleWrappers: UserModuleWrappers) {
+  if (!moduleWrappers.lazy) {
+    return mapValues(moduleWrappers.fixtures, f => f.module);
+  }
+
+  return await importLazyModules(moduleWrappers.fixtures);
+}
+
+async function importLazyModules<T>(
+  wrappers: ByPath<{ getModule: () => Promise<T> }>
+) {
+  return (
+    await Promise.all(
+      Object.keys(wrappers).map(async pathKey => ({
+        pathKey,
+        module: await wrappers[pathKey].getModule(),
+      }))
+    )
+  ).reduce(
+    (acc: ByPath<T>, { pathKey, module }) => ({ ...acc, [pathKey]: module }),
+    {}
+  );
 }

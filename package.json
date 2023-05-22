@@ -11,10 +11,12 @@
     "cosmos-export": "cosmos-export"
   },
   "dependencies": {
+    "@types/lodash-es": "^4.17.7",
     "@types/node": "20.1.0",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "@types/react-is": "^18.2.0",
+    "lodash-es": "^4.17.21",
     "next": "13.4.1",
     "react": "18.2.0",
     "react-cosmos": "^6.0.0-canary.4facf3c.0",
