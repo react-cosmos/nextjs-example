@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "cosmos": "cosmos --expose-imports",
-    "cosmos-export": "cosmos-export"
+    "cosmos-export": "cosmos-export --expose-imports"
   },
   "dependencies": {
     "@types/node": "20.1.0",
@@ -16,9 +16,9 @@
     "@types/react-dom": "18.2.4",
     "next": "13.4.1",
     "react": "18.2.0",
-    "react-cosmos": "^6.0.0-canary.a3c2250.0",
-    "react-cosmos-next": "^6.0.0-canary.a3c2250.0",
-    "react-cosmos-plugin-open-fixture": "^6.0.0-canary.a3c2250.0",
+    "react-cosmos": "^6.0.0-canary.467e7b4.0",
+    "react-cosmos-next": "^6.0.0-canary.467e7b4.0",
+    "react-cosmos-plugin-open-fixture": "^6.0.0-canary.467e7b4.0",
     "react-dom": "18.2.0",
     "react-tweet": "^2.0.1",
     "typescript": "5.0.4"
