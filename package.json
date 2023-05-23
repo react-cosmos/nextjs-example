@@ -16,9 +16,9 @@
     "@types/react-dom": "18.2.4",
     "next": "13.4.1",
     "react": "18.2.0",
-    "react-cosmos": "^6.0.0-canary.d9fdd1a.0",
-    "react-cosmos-next": "^6.0.0-canary.d9fdd1a.0",
-    "react-cosmos-plugin-open-fixture": "^6.0.0-canary.d9fdd1a.0",
+    "react-cosmos": "^6.0.0-alpha.21",
+    "react-cosmos-next": "^6.0.0-alpha.21",
+    "react-cosmos-plugin-open-fixture": "^6.0.0-alpha.21",
     "react-dom": "18.2.0",
     "react-tweet": "^2.0.1",
     "typescript": "5.0.4"
