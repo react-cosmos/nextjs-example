@@ -1,9 +1,8 @@
 {
   "$schema": "./node_modules/react-cosmos/config.schema.json",
-  "lazy": true,
   "plugins": ["react-cosmos-plugin-open-fixture"],
   "rendererUrl": {
     "dev": "http://localhost:3000/cosmos/<fixture>",
-    "export": "/cosmos/<fixture>"
+    "export": "/cosmos/<fixture>.html"
   }
 }
