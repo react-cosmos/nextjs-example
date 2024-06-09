@@ -20,7 +20,7 @@
     "react-cosmos-next": "6.1.1",
     "react-cosmos-plugin-open-fixture": "6.1.1",
     "react-dom": "18.3.1",
-    "react-tweet": "^3.1.1",
+    "react-tweet": "^3.2.1",
     "typescript": "5.4.5"
   }
 }
