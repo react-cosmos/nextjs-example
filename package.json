@@ -11,16 +11,16 @@
     "cosmos-export": "cosmos-export --expose-imports"
   },
   "dependencies": {
-    "@types/node": "20.1.0",
-    "@types/react": "18.2.6",
-    "@types/react-dom": "18.2.4",
+    "@types/node": "20.14.2",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
     "next": "14.2.6",
-    "react": "18.2.0",
+    "react": "18.3.1",
     "react-cosmos": "6.2.0",
     "react-cosmos-next": "6.2.0",
     "react-cosmos-plugin-open-fixture": "6.2.0",
-    "react-dom": "18.2.0",
-    "react-tweet": "^3.1.1",
-    "typescript": "5.0.4"
+    "react-dom": "18.3.1",
+    "react-tweet": "^3.2.1",
+    "typescript": "5.4.5"
   }
 }
