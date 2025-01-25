@@ -1,6 +1,6 @@
-import { ReactDecoratorProps } from 'react-cosmos-core';
+import { DecoratorProps } from 'react-cosmos-core';
 
-export default ({ children }: ReactDecoratorProps) => {
+export default ({ children }: DecoratorProps) => {
   return (
     <div
       style={{
